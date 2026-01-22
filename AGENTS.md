@@ -1,0 +1,114 @@
+# Power Platform Claude Plugins - Development Guidelines
+
+This file provides instructions for Claude Code when working on this plugin marketplace.
+
+## Official Documentation
+
+**Always refer to official Claude Code documentation when modifying plugin structure:**
+
+- **Skills**: https://code.claude.com/docs/en/skills
+- **Plugins Reference**: https://code.claude.com/docs/en/plugins-reference
+
+## Repository Structure
+
+This repository is a **plugin marketplace** containing multiple plugins:
+
+```
+power-platform-claude-plugin/
+├── .claude-plugin/
+│   └── marketplace.json      # Marketplace manifest (lists all available plugins)
+├── plugins/                  # Directory containing individual plugins
+│   └── power-pages/          # Power Pages plugin
+│       ├── .claude-plugin/
+│       │   └── plugin.json   # Plugin manifest
+│       ├── .mcp.json         # MCP server configuration
+│       ├── agents/           # Agent persona files
+│       ├── commands/         # Command entry points
+│       ├── shared/           # Shared resources and documentation
+│       └── skills/           # Skill workflows (SKILL.md in subdirectories)
+├── AGENTS.md                 # Development guidelines
+└── README.md                 # Repository overview
+```
+
+**Important**:
+- The root `.claude-plugin/marketplace.json` defines the marketplace and lists available plugins
+- Each plugin in `plugins/` has its own `.claude-plugin/plugin.json` manifest
+- Plugin components (agents, commands, skills, shared) must be at the plugin root, not inside `.claude-plugin/`
+
+## When Modifying Skills
+
+Skills use YAML frontmatter. Reference the official docs for all available fields:
+
+```yaml
+---
+name: skill-name                    # Optional: defaults to directory name
+description: What this skill does   # Recommended: Claude uses for auto-loading
+user-invocable: true                # Optional: default true
+disable-model-invocation: false     # Optional: default false
+allowed-tools: Read, Bash(pac:*)    # Optional: tool restrictions
+argument-hint: [project-path]       # Optional: autocomplete hint
+context: fork                       # Optional: run in subagent
+agent: Explore                      # Optional: subagent type
+model: opus                         # Optional: model override
+---
+```
+
+## When Modifying Agents
+
+Agents support optional frontmatter:
+
+```yaml
+---
+description: What this agent specializes in
+capabilities: ["task1", "task2"]
+---
+```
+
+## When Modifying plugin.json
+
+Refer to https://code.claude.com/docs/en/plugins-reference for all available fields.
+
+Required: `name`
+Recommended: `version`, `description`, `author`, `license`, `keywords`
+
+## Environment Variables
+
+Use these in skills, hooks, and scripts:
+
+- `${CLAUDE_PLUGIN_ROOT}` - Absolute path to plugin directory
+- `${CLAUDE_SESSION_ID}` - Current session ID
+- `$ARGUMENTS` - Arguments passed to skill
+
+## Memory Bank System
+
+Plugins use a memory bank (`memory-bank.md`) to persist state across sessions.
+
+- Each plugin has its own memory bank at `plugins/<plugin-name>/shared/memory-bank.md`
+- Skills should read memory bank at start
+- Skills should update memory bank after major steps
+
+## Tool Restrictions
+
+Skills in this plugin use restricted tools for security:
+
+- `Bash(pac:*)` - PAC CLI commands only
+- `Bash(az:*)` - Azure CLI commands only
+- `Bash(dotnet:*)` - .NET CLI commands only
+
+## Testing Changes
+
+After modifying plugin files:
+
+1. Run `claude --debug` to see plugin loading details
+2. Test skill invocation with `/skill-name`
+3. Verify tool restrictions work as expected
+
+## Adding a New Plugin
+
+To add a new plugin to this marketplace:
+
+1. Create a new directory under `plugins/` (e.g., `plugins/power-apps`)
+2. Add `.claude-plugin/plugin.json` with required manifest fields
+3. Add components: `agents/`, `commands/`, `skills/`, `shared/`
+4. Update `marketplace.json` at root to include the new plugin
+5. Update `README.md` to document the new plugin
