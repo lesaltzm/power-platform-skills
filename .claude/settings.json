@@ -2,12 +2,19 @@
   "permissions": {
     "allow": [
       "Bash(pac *)",
+      "Bash(pac model *)",
+      "Bash(pac auth *)",
       "Bash(node *)",
       "Bash(dotnet *)",
+      "Bash(cd:*)",
       "Bash(powershell *)",
+      "Bash(npx *)",
+      "Bash(dir:*)",
       "Read",
       "Write",
-      "Edit"
+      "Edit",
+      "mcp__playwright__*",
+      "mcp__*__browser_*"
     ]
   }
 }

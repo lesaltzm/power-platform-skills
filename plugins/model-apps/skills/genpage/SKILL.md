@@ -5,7 +5,8 @@ description: Creates, updates, and deploys Power Apps generative pages for model
 author: Microsoft Corporation
 argument-hint: "[optional: page description or 'deploy' or 'update']"
 user-invocable: true
-allowed-tools: Read, Write, Edit, Bash, Glob, Grep, WebFetch, AskUserQuestion, EnterPlanMode
+model: sonnet
+allowed-tools: Read, Write, Edit, Bash, Glob, Grep, WebFetch, AskUserQuestion, TaskCreate, TaskUpdate, TaskList
 ---
 
 # Power Apps Generative Pages Builder
@@ -16,35 +17,9 @@ allowed-tools: Read, Write, Edit, Bash, Glob, Grep, WebFetch, AskUserQuestion, E
 
 ## References
 
-- **Code generation rules**: [genux-rules-reference.md](../../references/genux-rules-reference.md)
-- **PAC CLI commands**: [pac-cli-reference.md](../../references/pac-cli-reference.md)
+- **Code generation rules**: [genpage-rules-reference.md](../../references/genpage-rules-reference.md)
 - **Troubleshooting**: [troubleshooting.md](../../references/troubleshooting.md)
 - **Sample pages**: [samples/](../../samples/)
-
-## What This Skill Does
-
-You are the **GenPage** skill — an expert in building and deploying Power Apps generative pages (genux pages) using React 17 + TypeScript + Fluent UI V9. You guide users through an interactive workflow:
-
-1. Validate prerequisites (Node.js, PAC CLI, authentication)
-2. Gather requirements interactively
-3. Plan and confirm the implementation
-4. Generate schema from Dataverse (if entity-based)
-5. Read code generation rules and relevant samples
-6. Generate complete, production-ready TypeScript code
-7. Save and deploy to Power Apps via PAC CLI
-
----
-
-## Prerequisites
-
-Before starting, verify:
-- **Node.js** installed on the system
-- **PAC CLI** installed on the system (run `pac --version` to confirm)
-- **Dataverse environment** access for deployment
-
-> **PAC CLI is assumed to be installed on the user's system.** If `pac` is not found, instruct the user to install it via `dotnet tool install --global Microsoft.PowerApps.CLI.Tool` or download from Microsoft.
-
----
 
 ## Development Standards
 
@@ -59,21 +34,6 @@ Before starting, verify:
 
 ---
 
-## Planning Policy
-
-Before implementing major changes, enter plan mode first. Planning is required for new features, multi-file changes, schema/API changes, or UI additions. Not required for single-line fixes, docs updates, or diagnostic commands.
-
-When entering plan mode, request these permissions:
-
-```
-allowedPrompts:
-  - tool: Bash, prompt: "run pac cli commands"
-  - tool: Bash, prompt: "run powershell commands"
-  - tool: Bash, prompt: "run node commands"
-```
-
----
-
 ## Instructions
 
 Follow these steps in order for every `/genpage` invocation.
@@ -84,10 +44,12 @@ Run these checks (first invocation per session only):
 
 ```powershell
 node --version
-pac --version
+pac help
 ```
 
-If either fails, inform the user and provide installation instructions. Do NOT proceed until prerequisites are met. See [troubleshooting.md](../../references/troubleshooting.md) if issues arise.
+`pac help` output includes the version number. Verify the version is **>= 2.3.1**. If the version is older, instruct the user to update: `dotnet tool update --global Microsoft.PowerApps.CLI.Tool`.
+
+If either command fails, inform the user and provide installation instructions. Do NOT proceed until prerequisites are met. See [troubleshooting.md](../../references/troubleshooting.md) if issues arise.
 
 ### Step 2: Authenticate and Select Environment
 
@@ -117,15 +79,21 @@ Report: "Working with environment: [name]" and proceed.
 
 ### Step 3: Gather Requirements (Interactive)
 
-Ask these questions in order:
+Ask these questions one at a time:
 
-1. **"What would you like to create?"** — form, dashboard, grid, list, wizard, report, etc.
-2. **"Will this page use Dataverse entities or mock data?"**
+1. **"Create a new generative page or edit an existing one?"** (use `AskUserQuestion`)
+   - If new: continue to next question
+   - If edit: ask for the app and page to edit, download it with `pac model genpage download --app-id <app-id> --page-id <page-id> --output-directory ./output-dir`, then ask what changes to make
+2. **"Describe the page you'd like to build"** (use `AskUserQuestion`) — present two example descriptions as options and let the user type their own via the "Other" option:
+   - **Option 1:** "Build a page showing Account records as a gallery of cards using modern look & feel. All cards should have fixed size and tall enough to fit 4 lines of titles. Include name, entityimage on the top and, website, email, phone number. Make the component fill 100% of the space. Make the gallery scrollable. Use data from the Account table. Make each card clickable to open the Account record in a new window. The target URL should be current location path with following query string parameters: pagetype=entityrecord&etn=[entityname]&id=[recordid] where entityname is account and id is accountid."
+   - **Option 2:** "Design a vertically scrollable checklist interface for Task records using a clean, flat layout. Each task should be a row with a left-aligned checkbox, subject in bold and right-aligned due date and priority. Use neutral tones for background and soft color tags for priority (e.g., red for High, gray for Low). Completed tasks should show a strikethrough and reduced opacity. Allow inline editing of due date with a date picker. On hover, rows should highlight with another background. Clicking a task opens the Task record in a new window using: pagetype=entityrecord&etn=[entityname]&id=[recordid] where entityname is task and id is related record id."
+   - **Other (Recommended):** User types their own description
+3. **"Will the page use Dataverse entities or mock data?"** (use `AskUserQuestion`)
    - If entities: ask which entities and fields (use logical names — singular, lowercase)
    - If mock data: confirm you'll generate realistic sample data
-3. **"Any specific requirements?"** — styling, features (search, filtering, sorting), accessibility, responsive behavior, interactions
+4. **"Any specific requirements?"** (use `AskUserQuestion`) — styling, features (search, filtering, sorting), accessibility, responsive behavior, interactions
 
-If the user provided a description with the `/genpage` command, acknowledge it and ask only clarifying questions.
+If the user provided a description with the `/genpage` command, acknowledge it and skip question 2. If the selected description already specifies a data source (e.g., Option 1 mentions Account table, Option 2 mentions Task records), skip question 3 as well.
 
 ### Step 4: Plan and Confirm
 
@@ -153,6 +121,8 @@ If the page uses Dataverse entities, generate the TypeScript schema NOW:
 pac model genpage generate-types --data-sources "entity1,entity2" --output-file RuntimeTypes.ts
 ```
 
+> **Windows + Bash**: Always use forward slashes in file paths (e.g., `D:/temp/RuntimeTypes.ts`). Backslashes like `\t` or `\R` are consumed as escape sequences by bash, producing wrong paths.
+
 After generating, **read the RuntimeTypes.ts file** and:
 1. Identify the actual column names available on each entity
 2. Note which columns are readonly vs writable
@@ -169,7 +139,7 @@ If schema generation fails, see [troubleshooting.md](../../references/troublesho
 
 Before generating code, read the comprehensive rules reference:
 
-**[genux-rules-reference.md](../../references/genux-rules-reference.md)** — Full code generation rules, DataAPI types, layout patterns, common errors.
+**[genpage-rules-reference.md](../../references/genpage-rules-reference.md)** — Full code generation rules, DataAPI types, layout patterns, common errors.
 
 Also read a relevant sample for reference:
 
@@ -186,7 +156,7 @@ Also read a relevant sample for reference:
 
 ### Step 7: Generate Code
 
-Generate complete TypeScript following ALL rules in [genux-rules-reference.md](../../references/genux-rules-reference.md). **For Dataverse pages, use ONLY the column names verified from RuntimeTypes.ts in Step 5.** Output in this format:
+Generate complete TypeScript following ALL rules in [genpage-rules-reference.md](../../references/genpage-rules-reference.md). **For Dataverse pages, use ONLY the column names verified from RuntimeTypes.ts in Step 5.** Output in this format:
 
 **Agent Thoughts:** Step-by-step reasoning and approach
 **Summary:** Non-technical bulleted list of what was built
@@ -264,14 +234,14 @@ const choices = await dataApi.getChoices("account-statecode");
 - Always wrap async `dataApi` calls in try-catch
 - DataGrid: use `createTableColumn`, enable sorting by default
 
-See [genux-rules-reference.md](../../references/genux-rules-reference.md) for full DataAPI type definitions and examples.
+See [genpage-rules-reference.md](../../references/genpage-rules-reference.md) for full DataAPI type definitions and examples.
 
 ### Step 8: Save and Deploy
 
 After showing code, ALWAYS ask:
 > "Would you like to publish this page to Power Apps?"
 
-If yes, follow this deployment workflow. See [pac-cli-reference.md](../../references/pac-cli-reference.md) for full command details.
+If yes, follow this deployment workflow. **Copy the upload commands below exactly — `--app-id`, `--code-file`, `--prompt`, `--agent-message` are all required and must use these exact flag names.**
 
 **For Dataverse entity pages** (schema already generated in Step 5):
 
@@ -291,6 +261,8 @@ pac model genpage upload `
   --name "Page Display Name" `
   --data-sources "entity1,entity2" `
   --prompt "User's original request summary" `
+  --model "<current-model-id>" `
+  --agent-message "The agent's response message describing what was built and any relevant details" `
   --add-to-sitemap
 ```
 
@@ -304,6 +276,8 @@ pac model genpage upload `
   --code-file page-name.tsx `
   --name "Page Display Name" `
   --prompt "User's original request summary" `
+  --model "<current-model-id>" `
+  --agent-message "The agent's response message describing what was built and any relevant details" `
   --add-to-sitemap
 ```
 
@@ -315,30 +289,99 @@ pac model genpage upload `
   --page-id <page-id> `
   --code-file page-name.tsx `
   --data-sources "entity1,entity2" `
-  --prompt "Summary of changes"
+  --prompt "User's original request summary" `
+  --model "<current-model-id>" `
+  --agent-message "The agent's response message describing what was built and any relevant details"
 ```
 
-### Step 9: Final Summary
+### Step 9: Verify in Browser
 
-After deployment, provide:
+After successful deployment, ask the user (use `AskUserQuestion`):
+> "Would you like to verify the page in the browser using Playwright? This will open the page and test interactive elements."
+
+Options: **Yes, verify in browser** / **Skip verification**
+
+If the user chooses to skip, go directly to Step 10.
+
+If the user chooses to verify, open the page in the browser using Playwright to verify it works and interactive elements function correctly.
+
+#### 9.1 Navigate and Authenticate
+
+Construct the URL from the environment base URL, app-id, and page-id returned by the upload command:
+
+```
+https://<env>.crm.dynamics.com/main.aspx?appid=<app-id>&pagetype=genux&id=<page-id>
+```
+
+1. Use `browser_navigate` to open the constructed URL
+2. If you get a "page closed" or "browser closed" error, retry navigation once — Playwright sessions can expire
+3. Use `browser_snapshot` to capture the page state. Always snapshot before any clicks — stale refs cause "Ref not found" errors
+4. If a sign-in page appears, use `browser_click` on the sign-in option, then `browser_wait_for` for the page to load
+5. Use `browser_wait_for` to wait for the genux page content to render (may take a few seconds)
+
+#### 9.2 Structural Verification
+
+Use `browser_snapshot` to take an accessibility snapshot and verify the expected DOM elements are present based on the page type built:
+
+| Page Type | Expected Elements |
+|-----------|-------------------|
+| Data Grid | Table/grid element with column headers and data rows |
+| Form / Wizard | Form fields (inputs, dropdowns) and Next/Back buttons |
+| CRUD | Data grid + action buttons (Add, Edit, Delete) |
+| Dashboard | Multiple sections/panels with headings |
+| Card Layout | Card containers with content |
+| File Upload | File input or drop zone element |
+| Navigation Sidebar | Nav element with menu items |
+
+If expected elements are missing, note the issue for the fix step (9.5).
+
+#### 9.3 Interactive Testing
+
+Test functional interactions based on the page type. **Always take a fresh `browser_snapshot` before each click** to get current element refs. Move on after 2 failed attempts per interaction.
+
+**All page types:**
+- Verify at least one button or control responds to a click
+
+**Page-type-specific tests:**
+
+| Page Type | Test Action | Expected Result |
+|-----------|-------------|-----------------|
+| Data Grid | Click a column header | Sort order changes (arrow indicator appears or flips) |
+| Form / Wizard | Click Next button | Step advances to next section |
+| Form / Wizard | Click Back button | Returns to previous section |
+| CRUD | Click Add/New button | Form or dialog appears |
+| Dashboard | Click a tab or section toggle | Content area updates |
+| Card Layout | Click an action button on a card | Card responds (expand, navigate, etc.) |
+| Navigation Sidebar | Click a menu item | Content area updates to show selected section |
+
+**What NOT to test** (skip these):
+- Dataverse data mutations (create/update/delete records) — modifies real data
+- File upload dialogs — Playwright cannot interact with native OS file dialogs
+- Complex form validation — fragile, requires realistic test data
+- Pagination — requires actual Dataverse data to be present
+
+#### 9.4 Visual Confirmation
+
+Use `browser_take_screenshot` to capture a final screenshot for the deployment summary. This screenshot should show the page in its final verified state.
+
+#### 9.5 Fix and Re-deploy
+
+If structural or interactive issues are found:
+1. Analyze the snapshot and screenshot for error details
+2. Fix the code
+3. Re-deploy using Step 8
+4. Repeat verification (Steps 9.1–9.4) until the page works correctly
+
+**Common Playwright issues:**
+- "Target page, context or browser has been closed" → retry the navigation
+- "Ref not found" → take a fresh `browser_snapshot` before clicking any element
+- Sign-in required → Playwright uses the system browser session; if not authenticated, the user must sign in manually first
+
+### Step 10: Final Summary
+
+After deployment and verification, provide:
 - Confirmation of successful upload
+- Screenshot of the page (if browser verification was done)
 - How to find the page in the app
-- Next steps (test in browser, share with team)
+- Next steps (share with team, iterate on design)
 - Offer to make updates or create additional pages
-
----
-
-## Verification Checklist
-
-Before finalizing code, verify ALL:
-
-1. All critical rules followed (React 17, Fluent V9, single file, etc.)
-2. All user requirements implemented
-3. All UI elements fully functional
-4. Exports default React component; compiles without errors
-5. Scrolling only on content bodies, not entire page
-6. All imports present and correct; no unused imports
-7. No placeholders, ellipses, or "unchanged" comments
-8. Responsive design; accessible (ARIA, keyboard nav, WCAG AA)
-9. No undefined identifiers or hardcoded values
-10. Output format compliance (Agent Thoughts, Summary, Final Code)

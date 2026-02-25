@@ -1,6 +1,6 @@
-# AGENTS.md — Power Apps Plugin
+# AGENTS.md — Model Apps Plugin
 
-This file provides guidance to AI Agents when working with the **power-apps** plugin.
+This file provides guidance to AI Agents when working with the **model-apps** plugin.
 
 ## What This Plugin Is
 
@@ -13,20 +13,22 @@ Single-session workflow — each `/genpage` invocation completes the full cycle:
 Test this plugin locally:
 
 ```bash
-claude --plugin-dir /path/to/plugins/power-apps
+claude --plugin-dir /path/to/plugins/model-apps
 ```
 
 ## Architecture
 
 ```
 .claude-plugin/plugin.json     ← Plugin metadata (name, version, keywords)
+.mcp.json                      ← MCP server config (Playwright for browser verification)
 AGENTS.md                      ← Plugin guidance for AI agents (this file)
 CLAUDE.md                      ← Symlink → AGENTS.md
 references/                    ← Shared reference docs
-  genux-rules-reference.md     ← Full code-gen rules, DataAPI types, layout patterns, common errors
-  pac-cli-reference.md         ← PAC CLI commands and parameters
+  genpage-rules-reference.md   ← Full code-gen rules, DataAPI types, layout patterns, common errors
   troubleshooting.md           ← Common issues and fixes
 samples/                       ← Example .tsx files (8 samples)
+scripts/
+  launch-playwright-mcp.js     ← Playwright MCP server launcher (detects system browser)
 skills/
   genpage/
     SKILL.md                   ← Skill definition with frontmatter (model, allowed-tools)
@@ -79,3 +81,4 @@ After modifying this plugin:
 2. Test skill invocation with `/genpage`
 3. Verify tool restrictions work (should only allow pac, powershell, node commands)
 4. Test with both Dataverse entity pages and mock data pages
+5. Verify Playwright browser verification works (navigate, snapshot, click, screenshot)
