@@ -46,15 +46,7 @@ The `canvas-authoring` MCP server exposes the following tools:
 | `ListControls` | Lists all available Canvas App controls and their properties |
 | `DescribeControl` | Returns detailed property schema for a specific control |
 | `CompileCanvas` | Compiles `.pa.yaml` source files into a `.msapp` package |
-
-## Typical Workflow
-
-Suggested invocation sequence for building a Canvas App:
-
-1. **`ListControls()`** — discover available controls for the app
-2. **`DescribeControl(controlName)`** — inspect properties of controls you plan to use
-3. **`/canvas-apps-generate-app <description>`** — generate `.pa.yaml` source files from a natural language description
-4. **`CompileCanvas(sourcePath)`** — compile the YAML into a `.msapp` file ready for import
+...
 
 ## Prerequisites
 
