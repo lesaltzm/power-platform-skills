@@ -102,10 +102,11 @@ claude mcp add --scope {CLAUDE_SCOPE} canvas-authoring -e CANVAS_ENVIRONMENT_ID=
 -- dnx Microsoft.PowerApps.CanvasAuthoring.McpServer --yes --prerelease --source https://msazure.pkgs.visualstudio.com/_packaging/Power-Fx/nuget/v3/index.json
 ```
 
-If the command fails because `canvas-authoring` is already registered, re-run with `--force` to overwrite it:
+If the command fails because `canvas-authoring` is already registered, remove it first, then re-add:
 
 ```bash
-claude mcp add --scope {CLAUDE_SCOPE} canvas-authoring -e CANVAS_ENVIRONMENT_ID={ENV_ID} -e CANVAS_APP_ID={APP_ID} --force \
+claude mcp remove canvas-authoring
+claude mcp add --scope {CLAUDE_SCOPE} canvas-authoring -e CANVAS_ENVIRONMENT_ID={ENV_ID} -e CANVAS_APP_ID={APP_ID} \
 -- dnx Microsoft.PowerApps.CanvasAuthoring.McpServer --yes --prerelease --source https://msazure.pkgs.visualstudio.com/_packaging/Power-Fx/nuget/v3/index.json
 ```
 

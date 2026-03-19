@@ -28,6 +28,8 @@ skills/
     SKILL.md                   ← Registers the Canvas Authoring MCP server with Claude Code
   generate-app/
     SKILL.md                   ← Generates pa.yaml source files for a described Canvas App
+  edit-app/
+    SKILL.md                   ← Edits pa.yaml source files for an existing Canvas App
 ```
 
 ## Skills
@@ -36,6 +38,7 @@ skills/
 |-------|-------------|
 | `/canvas-apps-mcp-configure` | Register the Canvas Authoring MCP server with Claude Code |
 | `/canvas-apps-generate-app` | Generate a complete Canvas App from a natural language description |
+| `/canvas-apps-edit-app` | Edit an existing Canvas App from a natural language description of changes |
 
 ## MCP Tools
 
@@ -43,9 +46,14 @@ The `canvas-authoring` MCP server exposes the following tools:
 
 | Tool | Description |
 |------|-------------|
-| `ListControls` | Lists all available Canvas App controls and their properties |
-| `DescribeControl` | Returns detailed property schema for a specific control |
-| `CompileCanvas` | Compiles `.pa.yaml` source files into a `.msapp` package |
+| `compile_canvas` | Validates canvas app YAML files in a directory using the Power Apps authoring service |
+| `describe_api` | Gets detailed information about a specific API (connector) including its operations and parameters |
+| `describe_control` | Gets detailed information about a specific Power Apps control including properties, variants, and metadata |
+| `get_data_source_schema` | Gets the schema (columns and their Power Fx types) for a specific data source in the current authoring session |
+| `list_apis` | Lists all available APIs (connectors) in the current authoring session |
+| `list_controls` | Lists all available Power Apps controls in the current authoring session |
+| `list_data_sources` | Lists all available data sources in the current authoring session |
+| `sync_canvas` | Syncs the current coauthoring session state from the server to a local directory, writing all YAML files |
 
 ## Prerequisites
 
