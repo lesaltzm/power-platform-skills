@@ -14,12 +14,11 @@ $ARGUMENTS
 
 ## CRITICAL: Review Guidance First
 
-Before making any changes, you MUST read and internalize both reference documents:
+Before making any changes, you MUST read and internalize the technical reference document:
 
-- `references/TechnicalGuide.md` — Technical best practices, control selection, validation workflow, formulas, layout strategies
-- `references/DesignGuide.md` — Design principles, aesthetic guidelines, anti-patterns to avoid, visual composition
+- `${CLAUDE_PLUGIN_ROOT}/references/TechnicalGuide.md` — Technical best practices, control selection, validation workflow, formulas, layout strategies
 
-Read both files before planning any edits.
+Read this file before planning any edits.
 
 ## CRITICAL: Sync the Canvas App First
 

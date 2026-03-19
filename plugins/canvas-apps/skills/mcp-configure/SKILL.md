@@ -85,7 +85,7 @@ Then extract from the URL:
 - **ENV_ID**: the path segment between `/e/` and the next `/` (e.g. `Default-91bee3d9-0c15-4f17-8624-c92bb8b36ead`).
 - **APP_ID**: URL-decode the `app-id` query parameter value, then take the last segment after the final `/` (e.g. `6fc3e3d1-292b-4281-8826-577f78512e56`)
 
-Example URL: `https://make.test.powerapps.com/e/Default-91bee3d9-0c15-4f17-8624-c92bb8b36ead/canvas/?action=edit&app-id=%2Fproviders%2FMicrosoft.PowerApps%2Fapps%2F6fc3e3d1-292b-4281-8826-577f78512e56`
+Example URL: `https://make.powerapps.com/e/Default-91bee3d9-0c15-4f17-8624-c92bb8b36ead/canvas/?action=edit&app-id=%2Fproviders%2FMicrosoft.PowerApps%2Fapps%2F6fc3e3d1-292b-4281-8826-577f78512e56`
 - ENV_ID → `Default-91bee3d9-0c15-4f17-8624-c92bb8b36ead`
 - APP_ID → `6fc3e3d1-292b-4281-8826-577f78512e56`
 
@@ -164,4 +164,4 @@ Tell the user:
 >
 > After restarting, verify the setup:
 > - `canvas-authoring` should appear in the MCP server list
-> - Ask Claude: "List available Canvas App controls" — should invoke `ListControls()`
+> - Ask Claude: "List available Canvas App controls" — should invoke `list_controls`
