@@ -101,7 +101,7 @@ This applies anywhere a record literal appears inline: `Default`, `Selected`, `I
 ⚠️ **`GroupContainer` has no `OnSelect` — it cannot be clicked.** This is a common dead end when building card UI: the container lays out perfectly but tapping it does nothing.
 
 - **Clickable cards:** Use `ModernCard` instead — it has `OnSelect` and is designed for this.
-- **Clickable non-card areas:** Overlay a transparent `Button` or `Rectangle` (both have `OnSelect`) on top of the container at the same position and size. Set `Fill: =RGBA(0,0,0,0)` and `BorderThickness: =0` to make it invisible.
+- **Clickable non-card areas:** Overlay a transparent `Button` or `Rectangle` (both have `OnSelect`) on top of the container at the same position and size. If applicable, set the Appearance property to transparent; otherwise set `Fill: =RGBA(0,0,0,0)` and `BorderThickness: =0` to make it invisible.
 
 ### Data Display
 
@@ -205,7 +205,10 @@ Text: =firstName & " " & lastName
 Text: =currentPlayer & " wins!"
 
 # String comparison
-Visible: =searchText <> ""        # Not equal (not empty)
+## Not equal (empty string)
+Visible: =searchText <> ""
+## Equal (case-sensitive)
+Visible: =selectedOption = "Option1"
 ```
 
 ### Converting date/time values to text
@@ -237,6 +240,25 @@ That is the case if the name or the value contains spaces, special characters, o
     Control: ModernNumberInput
     Properties:
       Precision: =DecimalPrecision.'2'
+```
+
+### Escaping option set values
+
+Some option set names and values need to be escaped with `'` to be parsed correctly in Power Fx. That is the case if
+the name or the value contains spaces, special characters, or if it starts with a number. For example:
+```yaml
+# Using option set values with spaces: the option set name is 'Account Status' and it has a value 'Active'
+- galItemsGallery:
+    Control: Gallery
+    Properties:
+      Items: =Filter(Accounts, 'Account Status' = 'Account Status'.Active)
+
+# Using option set with special characters
+- lblDueDate:
+    Control: ModernText
+    Properties:
+      Text: =ThisItem.DueDate
+      Visible: =ThisItem.Status = 'Status (Assignments)'.Active
 ```
 
 ## Layout Strategies
@@ -318,7 +340,7 @@ OnSelect: |-
 
 ## Named Formulas (NFs) and User Defined Functions (UDFs)
 
-Define reusable logic in `App.Formulas`. This is ideal for constants, complex calculations,
+Define reusable logic in `App.Formulas`. This is ideal for constants, complex calculations, 
 or any logic that needs to be shared across multiple controls or screens.
 
 ```yaml
@@ -375,7 +397,7 @@ App:
 - ❌ Don't skip validation until the end
 
 ### Data
-If the app you're building requires any references to external data sources, temporarily use `ClearCollect` in the App.OnStart property to populate collections with mock data.
+If the app you're building requires any references to external data sources, temporarily use `ClearCollect` in the App.OnStart property to populate collections with mock data. 
 
 ## Common Property Reference
 

@@ -16,8 +16,8 @@ $ARGUMENTS
 
 Before designing anything, you MUST read and internalize both reference documents:
 
-- `${CLAUDE_PLUGIN_ROOT}/references/TechnicalGuide.md` — Technical best practices, control selection, validation workflow, formulas, layout strategies
-- `${CLAUDE_PLUGIN_ROOT}/references/DesignGuide.md` — Design principles, aesthetic guidelines, anti-patterns to avoid, visual composition
+- `references/TechnicalGuide.md` — Technical best practices, control selection, validation workflow, formulas, layout strategies
+- `references/DesignGuide.md` — Design principles, aesthetic guidelines, anti-patterns to avoid, visual composition
 
 Read both files before planning any layout or choosing any control types.
 

@@ -16,7 +16,7 @@ $ARGUMENTS
 
 Before making any changes, you MUST read and internalize the technical reference document:
 
-- `${CLAUDE_PLUGIN_ROOT}/references/TechnicalGuide.md` — Technical best practices, control selection, validation workflow, formulas, layout strategies
+- `references/TechnicalGuide.md` — Technical best practices, control selection, validation workflow, formulas, layout strategies
 
 Read this file before planning any edits.
 
