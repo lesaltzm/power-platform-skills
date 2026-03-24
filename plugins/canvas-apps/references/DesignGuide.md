@@ -39,7 +39,9 @@ the real user experience.
 
 ### Typography & Text Hierarchy
 
-- **Control Selection**: Use `Label` for headlines with `FontWeight: =FontWeight.Bold`. Use `Text` for body content.
+- **Control Selection**: When there are multiple controls for the same purpose, and one of them is a "Classic" control, favor the modern controls:
+	- Favor `ModernText` over `Label`, `ModernCombobox` over `Classic/ComboBox`, `ModernRadio` over `Classic/Radio`, `Button` or `ModernButton` over `Classic/Button`, `ModernTabList` over building tabs with `Button` or `Toggle`, `ModernTextInput` over `Classic/TextInput`, and so on.
+- **Font Weight**: Use `ModernText` for headlines with `FontWeight: =FontWeight.Bold` and a large font size. Use `ModernText` with `FontWeight: =FontWeight.Normal` for body content.
 - **Size Contrast**: Create dramatic hierarchy with size differences. Headers at 24-32, subheaders at 18-20, body at 14-16.
 - **Alignment as Statement**: Mix `Align.Left`, `Align.Center`, `Align.Right` intentionally. Centered text for impact, left-aligned for readability.
 - **Font Properties**: Leverage `Size` / `FontSize`, `FontWeight`, `Align`, `VerticalAlign`, and `FontColor` to create visual interest.
