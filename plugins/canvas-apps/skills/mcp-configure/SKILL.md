@@ -23,8 +23,8 @@ dotnet --list-sdks
 ```
 
 If a version over 10.x.y is not listed, tell the user:
-> ⚠️ .NET 10 SDK is required to run the Canvas Authoring MCP server. It looks like you don't have it installed. Please install it first to use this skill. https://dotnet.microsoft.com/download/dotnet/10.0
 
+> ⚠️ .NET 10 SDK is required to run the Canvas Authoring MCP server. It looks like you don't have it installed. Please install it first to use this skill. https://dotnet.microsoft.com/download/dotnet/10.0
 
 Then wait for the user to install it before continuing. If they say it's installed, run the command again to confirm. If it's still not found, repeat the message until they have it installed.
 
@@ -84,30 +84,50 @@ Ask the user:
 Then extract from the URL:
 - **ENV_ID**: the path segment between `/e/` and the next `/` (e.g. `Default-91bee3d9-0c15-4f17-8624-c92bb8b36ead`).
 - **APP_ID**: URL-decode the `app-id` query parameter value, then take the last segment after the final `/` (e.g. `6fc3e3d1-292b-4281-8826-577f78512e56`)
+- **MAKER_HOSTNAME**: the hostname of the URL (e.g. `make.powerapps.com`)
+- **CLUSTER_CATEGORY**: determined from MAKER_HOSTNAME (see table below)
+
+**Determine CLUSTER_CATEGORY from MAKER_HOSTNAME:**
+
+| MAKER_HOSTNAME               | CLUSTER_CATEGORY |
+| ---------------------------- | ---------------- |
+| `make.powerapps.com`         | `prod`           |
+| `make.preview.powerapps.com` | `prod`           |
+| Any other hostname           | `test`           |
+
+**Example:**
 
 Example URL: `https://make.powerapps.com/e/Default-91bee3d9-0c15-4f17-8624-c92bb8b36ead/canvas/?action=edit&app-id=%2Fproviders%2FMicrosoft.PowerApps%2Fapps%2F6fc3e3d1-292b-4281-8826-577f78512e56`
+
 - ENV_ID → `Default-91bee3d9-0c15-4f17-8624-c92bb8b36ead`
 - APP_ID → `6fc3e3d1-292b-4281-8826-577f78512e56`
+- MAKER_HOSTNAME → `make.powerapps.com`
+- CLUSTER_CATEGORY → `prod`
 
-Store these as `ENV_ID` and `APP_ID` for use in step 4.
+Store these as `ENV_ID`, `APP_ID`, and `CLUSTER_CATEGORY` for use in step 4.
 
 ### 4. Register the MCP server
-
 
 **If TOOL_TYPE is `claude`:**
 Run the following command to register the server with Claude Code:
 
 ```bash
-claude mcp add --scope {CLAUDE_SCOPE} canvas-authoring -e CANVAS_ENVIRONMENT_ID={ENV_ID} -e CANVAS_APP_ID={APP_ID} \
--- dnx Microsoft.PowerApps.CanvasAuthoring.McpServer --yes --prerelease --source https://msazure.pkgs.visualstudio.com/_packaging/Power-Fx/nuget/v3/index.json
+claude mcp add --scope {CLAUDE_SCOPE} canvas-authoring \
+  -e CANVAS_ENVIRONMENT_ID={ENV_ID} \
+  -e CANVAS_APP_ID={APP_ID} \
+  -e CANVAS_CLUSTER_CATEGORY={CLUSTER_CATEGORY} \
+  -- dnx Microsoft.PowerApps.CanvasAuthoring.McpServer --yes --prerelease --source https://msazure.pkgs.visualstudio.com/_packaging/Power-Fx/nuget/v3/index.json
 ```
 
 If the command fails because `canvas-authoring` is already registered, remove it first, then re-add:
 
 ```bash
 claude mcp remove canvas-authoring
-claude mcp add --scope {CLAUDE_SCOPE} canvas-authoring -e CANVAS_ENVIRONMENT_ID={ENV_ID} -e CANVAS_APP_ID={APP_ID} \
--- dnx Microsoft.PowerApps.CanvasAuthoring.McpServer --yes --prerelease --source https://msazure.pkgs.visualstudio.com/_packaging/Power-Fx/nuget/v3/index.json
+claude mcp add --scope {CLAUDE_SCOPE} canvas-authoring \
+  -e CANVAS_ENVIRONMENT_ID={ENV_ID} \
+  -e CANVAS_APP_ID={APP_ID} \
+  -e CANVAS_CLUSTER_CATEGORY={CLUSTER_CATEGORY} \
+  -- dnx Microsoft.PowerApps.CanvasAuthoring.McpServer --yes --prerelease --source https://msazure.pkgs.visualstudio.com/_packaging/Power-Fx/nuget/v3/index.json
 ```
 
 **If TOOL_TYPE is `copilot`:**
@@ -139,10 +159,11 @@ claude mcp add --scope {CLAUDE_SCOPE} canvas-authoring -e CANVAS_ENVIRONMENT_ID=
            "--source",
            "https://msazure.pkgs.visualstudio.com/_packaging/Power-Fx/nuget/v3/index.json"
          ],
-          "env": {
-            "CANVAS_ENVIRONMENT_ID": "{ENV_ID}",
-            "CANVAS_APP_ID": "{APP_ID}"
-          } 
+         "env": {
+           "CANVAS_ENVIRONMENT_ID": "{ENV_ID}",
+           "CANVAS_APP_ID": "{APP_ID}",
+           "CANVAS_CLUSTER_CATEGORY": "{CLUSTER_CATEGORY}"
+         }
        }
      }
    }
