@@ -10,7 +10,7 @@ allowed-tools: Bash, AskUserQuestion, Read, Edit, Write
 
 # Configure the Canvas Authoring MCP Server
 
-This skill registers the Canvas Authoring MCP server with Claude Code using the user's Power Platform environment ID.
+This skill registers the Canvas Authoring MCP server with either Claude Code or GitHub Copilot using the user's Power Platform environment ID.
 
 ## Instructions
 
