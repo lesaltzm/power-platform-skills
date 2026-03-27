@@ -27,7 +27,7 @@ claude --plugin-dir /path/to/power-platform-skills/plugins/canvas-apps
 
 ### `/configure-canvas-mcp`
 
-Register the Canvas Authoring MCP server with Claude Code or Github Copilot.
+Register the Canvas Authoring MCP server with Claude Code or GitHub Copilot.
 
 **Usage:** Invoke directly with `/configure-canvas-mcp`, or use any of the keywords below to trigger the skill automatically:
 
