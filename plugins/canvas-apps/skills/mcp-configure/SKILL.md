@@ -5,7 +5,7 @@ description: Configure the Canvas Authoring MCP server for Claude Code. USE WHEN
 author: Microsoft Corporation
 user-invocable: true
 model: sonnet
-allowed-tools: Bash, AskUserQuestion
+allowed-tools: Bash, AskUserQuestion, Read, Edit, Write
 ---
 
 # Configure the Canvas Authoring MCP Server
