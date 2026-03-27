@@ -35,7 +35,7 @@ Determine whether needs to configure MCP for GitHub Copilot or for Claude Code:
 - Otherwise, determine which tool the user is running from the context.
 - Only if choosing based on the context is impossible, ask the user:
 
-> Which tool would you like to configure the Dataverse MCP server for?
+> Which tool would you like to configure the Canvas Authoring (canvas-authoring) MCP server for?
 > 1. **GitHub Copilot**
 > 2. **Claude**
 
