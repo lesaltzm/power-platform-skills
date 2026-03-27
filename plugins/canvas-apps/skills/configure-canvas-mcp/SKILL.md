@@ -30,7 +30,7 @@ Then wait for the user to install it before continuing. If they say it's install
 
 ### 1. Determine which tool to configure
 
-Determine whether needs to configure MCP for GitHub Copilot or for Claude Code:
+Determine whether the user needs to configure MCP for GitHub Copilot or for Claude Code:
 - If explicitly mentioned in prompt, use that.
 - Otherwise, determine which tool the user is running from the context.
 - Only if choosing based on the context is impossible, ask the user:
