@@ -54,7 +54,7 @@ Read both files before planning any layout or choosing any control types.
    - If approved: proceed to Design.
    - If changes requested: ask what they want changed, revise the plan, and re-present it.
 
-3. **Design** — Choose an aesthetic direction and layout strategy. Identify the primary screens, visual hierarchy, and control types. Use `describe_control` to verify property names and variants for any control you plan to use. Call `TaskUpdate` to mark the Design task complete when done.
+3. **Design** — Choose an aesthetic direction and layout strategy. Identify the primary screens, visual hierarchy, and control types. Before writing any YAML, call `describe_control` for every control type in your design — including seemingly obvious ones like Button, Rectangle, and GroupContainer. Property names differ significantly between Classic and FluentV9 families. Never assume. Call `TaskUpdate` to mark the Design task complete when done.
 
    After finalizing the design, share the direction with the user:
 
@@ -65,7 +65,7 @@ Read both files before planning any layout or choosing any control types.
    > - **Key controls:** [4-6 controls driving the design, e.g., ModernCard, Gallery, Badge, ModernTabList]
    > - **Screens to implement:** [list screen names in order]
 
-4. **Implement** — Write the `.pa.yaml` files following conventions from `${CLAUDE_PLUGIN_ROOT}/references/TechnicalGuide.md`. Include state initialization in `OnVisible`, event handlers with guard clauses, and Power Fx formulas with the `=` prefix. Before writing each screen's YAML, announce progress:
+4. **Implement** — Write the `.pa.yaml` files following conventions from `${CLAUDE_PLUGIN_ROOT}/references/TechnicalGuide.md`. Include state initialization in `OnVisible`, event handlers with guard clauses, and Power Fx formulas with the `=` prefix. Write the simplest working version of a formula, then let `compile_canvas` catch errors. Don't deliberate on formulas you can validate in under 10 seconds. Reserve reasoning for errors the compiler can't catch (logic bugs, wrong data source fields). Before writing each screen's YAML, announce progress:
 
    > **Implementing [Screen Name] ([N] of [Total])...**
 
