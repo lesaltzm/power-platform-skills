@@ -8,13 +8,13 @@ When generating a new Canvas App screen:
 
 Always review this technical guide AND the design guide prior to designing a screen.
 
-1. ⚠️ **Run ListControls FIRST — this is non-optional** - Controls you don't know exist can't influence your design. Skipping this step leads to rebuilding things like `Avatar`, `Badge`, `Progress`, `ModernTabList`, and `ModernCard` from scratch using primitive controls. Run ListControls before planning layout or choosing any control type.
+1. ⚠️ **Run `list_controls` FIRST — this is non-optional** - Controls you don't know exist can't influence your design. Skipping this step leads to rebuilding things like `Avatar`, `Badge`, `Progress`, `ModernTabList`, and `ModernCard` from scratch using primitive controls. Run `list_controls` before planning layout or choosing any control type.
 2. ✅ **Explore examples** - Review existing `.pa.yaml` files for patterns if available
 3. ✅ **Plan state management** - Identify what variables you need (Set() calls)
 4. ✅ **Choose layout strategy** - ManualLayout for precise control, AutoLayout for responsive design
 5. ✅ **Select control types** - Match controls to use case
 6. ✅ **Write formulas carefully** - Use Power Fx syntax with `=` prefix
-7. ✅ **Validate early and often** - Use CompileCanvas tool to catch errors
+7. ✅ **Validate early and often** - Use `compile_canvas` tool to catch errors
 
 ## File Structure
 
