@@ -167,12 +167,12 @@ power-platform-skills/
 │   │   ├── shared/
 │   │   └── skills/
 │   ├── model-apps/           # Model Apps plugin
-│       ├── .claude-plugin/
-│       │   └── plugin.json
-│       ├── commands/
-│       ├── skills/
-│       ├── shared/           # Shared references + samples
-│       └── github/           # GitHub Copilot instructions
+│   |   ├── .claude-plugin/
+│   │   └── plugin.json
+│   |   ├── commands/
+│   |   ├── skills/
+│   |   ├── shared/           # Shared references + samples
+│   |   └── github/           # GitHub Copilot instructions
 │   ├── code-apps/            # Code Apps plugin
 │   │   ├── .claude-plugin/
 │   │   │   └── plugin.json

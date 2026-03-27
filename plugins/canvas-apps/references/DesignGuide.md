@@ -14,7 +14,7 @@ Before generating YAML, understand the context and commit to a BOLD aesthetic di
 
 ## Know Your Control Palette Before Designing
 
-**Run ListControls before committing to any layout.** The available controls are not just technical building blocks — they are design options. Designing without knowing what exists means you'll build inferior versions of things that already exist as polished, semantic components.
+**Run list_controls before committing to any layout.** The available controls are not just technical building blocks — they are design options. Designing without knowing what exists means you'll build inferior versions of things that already exist as polished, semantic components.
 
 Key controls that directly expand your design vocabulary:
 
@@ -30,7 +30,7 @@ Key controls that directly expand your design vocabulary:
 
 ## Know Your Data Sources and APIs Before Creating Collections
 
-**Run ListDataSources and ListAPIs before creating any local collections with `ClearCollect()` or `Collect()` calls.** The
+**Run list_data_sources and list_apis before creating any local collections with `ClearCollect()` or `Collect()` calls.** The
 data sources and APIs you have access to are not just technical details — they are design constraints and opportunities.
 Designing without knowing what data you can pull in and how means you'll create static, fake content that doesn't reflect
 the real user experience.
@@ -102,7 +102,7 @@ Avoid these antipatterns:
 - ❌ Defaulting to `Classic` controls without considering alternatives
 - ❌ Not exploring specialized controls
 - ❌ Generic control names like `Button1`, `Label2`
-- ❌ Building `Avatar`, `Badge`, `Progress`, `ModernTabList`, or card layouts from primitives when the semantic controls exist — always run ListControls first
+- ❌ Building `Avatar`, `Badge`, `Progress`, `ModernTabList`, or card layouts from primitives when the semantic controls exist — always run list_controls first
 
 **Timid Typography:**
 - ❌ All text at size 12-14 with no hierarchy
@@ -140,13 +140,13 @@ Interpret creatively and make unexpected choices:
 
 ## Design Process Summary
 
-1. **Discover your palette** — Run ListControls before committing to any design direction
+1. **Discover your palette** — Run list_controls before committing to any design direction
 2. **Choose an aesthetic direction** — Commit to a specific, bold tone (see Design Thinking Process above)
 3. **Plan visual hierarchy** — What are the primary, secondary, and tertiary elements? How do they relate?
 4. **Choose layout strategy** — ManualLayout for precision; AutoLayout for responsiveness
 5. **Plan interactivity** — What state variables drive dynamic behavior? What does the user experience over time?
 6. **Implement YAML** — Execute the vision with intentional aesthetic choices at every property
-7. **Validate** — Use CompileCanvas early, not just at the end
+7. **Validate** — Use compile_canvas early, not just at the end
 8. **Refine** — Polish spacing, color, sizing, and depth until the design feels intentional
 
 Remember: Canvas Apps can be visually striking and memorable despite platform constraints. Don't hold back. Show what can truly be created when thinking outside the box and committing fully to a distinctive vision.

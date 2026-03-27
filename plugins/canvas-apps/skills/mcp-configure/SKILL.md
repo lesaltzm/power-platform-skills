@@ -1,7 +1,7 @@
 ---
 name: canvas-apps-mcp-configure
 version: 1.0.0
-description: Configure the Canvas Authoring MCP server for Claude Code. USE WHEN "configure MCP", "set up MCP server", "MCP not working", "connect Canvas Apps MCP", "canvas-authoring not available", "MCP not configured", "set up canvas apps". DO NOT USE WHEN prerequisites are missing — direct the user to install .NET 10 SDK first.
+description: Configure the Canvas Authoring MCP server for Claude Code or Github Copilot. USE WHEN "configure MCP", "set up MCP server", "MCP not working", "connect Canvas Apps MCP", "canvas-authoring not available", "MCP not configured", "set up canvas apps". DO NOT USE WHEN prerequisites are missing — direct the user to install .NET 10 SDK first.
 author: Microsoft Corporation
 user-invocable: true
 model: sonnet
@@ -22,7 +22,7 @@ Verify that .NET 10 SDK or higher is installed
 dotnet --list-sdks
 ```
 
-If a version over 10.x.y is not listed, tell the user:
+If a version 10.x.y or higher is not listed, tell the user:
 
 > ⚠️ .NET 10 SDK is required to run the Canvas Authoring MCP server. It looks like you don't have it installed. Please install it first to use this skill. https://dotnet.microsoft.com/download/dotnet/10.0
 
@@ -148,7 +148,7 @@ claude mcp add --scope {CLAUDE_SCOPE} canvas-authoring \
 4. Add or update the server entry:
    ```json
    {
-     "mcpServers": {
+     "mcpServers": {  // or "servers", depending on existing config 
        "canvas-authoring": {
          "type": "stdio",
          "command": "dnx",
@@ -177,6 +177,8 @@ claude mcp add --scope {CLAUDE_SCOPE} canvas-authoring \
 
 ### 5. Confirm and provide next steps
 
+If TOOL_TYPE is `claude`:
+
 Tell the user:
 
 > ✅ Canvas Authoring MCP server configured (`canvas-authoring`, scope: `{CLAUDE_SCOPE}`).
@@ -186,3 +188,15 @@ Tell the user:
 > After restarting, verify the setup:
 > - `canvas-authoring` should appear in the MCP server list
 > - Ask Claude: "List available Canvas App controls" — should invoke `list_controls`
+
+If TOOL_TYPE is `copilot`:
+
+Tell the user:
+
+> ✅ Canvas Authoring MCP server configured (`canvas-authoring`, configPath: `{CONFIG_PATH}`).
+>
+> **Restart Copilot to activate it.** 
+>
+> After restarting, verify the setup:
+> - `canvas-authoring` should appear in the MCP server list
+> - Ask Copilot: "List available Canvas App controls" — should invoke `list_controls`

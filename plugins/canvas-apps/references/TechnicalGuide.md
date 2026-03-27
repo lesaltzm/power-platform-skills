@@ -88,7 +88,7 @@ This applies anywhere a record literal appears inline: `Default`, `Selected`, `I
 
 ## Control Type Selection
 
-**⚠️ Required — not optional:** Run ListControls before planning your layout. Controls you don't know exist can't influence your design, and the catalog includes high-level controls (`Avatar`, `Badge`, `Progress`, `ModernTabList`, `ModernCard`, and others) that are easy to miss and expensive to reinvent with primitives.
+**⚠️ Required — not optional:** Run list_controls before planning your layout. Controls you don't know exist can't influence your design, and the catalog includes high-level controls (`Avatar`, `Badge`, `Progress`, `ModernTabList`, `ModernCard`, and others) that are easy to miss and expensive to reinvent with primitives.
 
 ### Layout Containers
 
@@ -392,7 +392,7 @@ App:
 - ❌ Don't guess at property names
 
 ### Validation
-- ✅ Use CompileCanvas tool to validate directory
+- ✅ Use compile_canvas tool to validate directory
 - ✅ Validate after major changes
 - ❌ Don't skip validation until the end
 
@@ -435,14 +435,14 @@ If the app you're building requires any references to external data sources, tem
 - **Button text is too small:** Buttons don't support `Size` property - make button larger
 - **Variables reset unexpectedly:** Variables are screen-scoped - use `OnVisible` to initialize
 - **Layout doesn't look right:** Check if you're mixing ManualLayout and AutoLayout
-- **Validation fails with "Unknown property":** Use DescribeControl tool to see valid properties
+- **Validation fails with "Unknown property":** Use describe_control tool to see valid properties
 
 ## Implementation Workflow
 
-1. **ListControls** — required before planning layout; know what exists before writing any YAML
-2. **DescribeControl** — verify property names and variants for each control you plan to use
+1. **list_controls** — required before planning layout; know what exists before writing any YAML
+2. **describe_control** — verify property names and variants for each control you plan to use
 3. **Draft screen structure** — sketch the container/control hierarchy before filling in properties
 4. **Write properties and formulas** — positioning, colors, state, event handlers
-5. **Validate with CompileCanvas** — catch errors early; don't wait until the end
-6. **Fix errors** — use DescribeControl to confirm valid property names before guessing
+5. **Validate with compile_canvas** — catch errors early; don't wait until the end
+6. **Fix errors** — use describe_control to confirm valid property names before guessing
 7. **Iterate** — validate after each meaningful change until the screen compiles clean

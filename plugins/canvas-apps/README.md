@@ -1,6 +1,6 @@
 # Canvas Apps Plugin
 
-Build Power Apps Canvas Apps with your coding agent as coauthor.  This plugin connects AI coding assistants to the Power Apps authoring service over stdio, enabling  them to validate .pa.yaml files, browse available controls and their properties, discover APIs/connectors and data sources, and sync app state from live coauthoring sessions. 
+Build Power Apps Canvas Apps with your coding agent as coauthor. This plugin connects AI coding assistants to the Power Apps authoring service over stdio, enabling them to validate .pa.yaml files, browse available controls and their properties, discover APIs/connectors and data sources, and sync app state from live coauthoring sessions. 
 
 > **Preview:** This plugin is currently in [preview](https://www.microsoft.com/en-us/business-applications/legal/supp-powerplatform-preview/). These features are available before official release for customers to provide feedback.
 
@@ -73,3 +73,7 @@ The `canvas-authoring` MCP server exposes the following tools:
 Your credentials are always handled securely through the official Azure Identity SDK - we never store or manage tokens directly.
 
 MCP is a new and developing standard. As with all new technology standards, you should review the security of any systems that integrate with MCP servers, such as MCP hosts, clients, agents, AI applications, and models and confirm that they comply with system requirements, standards, and expectations. You should follow Microsoft security guidance for MCP servers, including enabling Entra ID authentication, secure token management, and network isolation. Refer to Microsoft Security Documentation for details.
+
+
+## License
+See the [LICENSE](../../LICENSE) file for license information.
