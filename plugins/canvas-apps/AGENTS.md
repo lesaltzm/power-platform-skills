@@ -24,11 +24,11 @@ references/
   TechnicalGuide.md            ← YAML syntax, control selection, layout strategies, Power Fx patterns
   DesignGuide.md               ← Aesthetic guidelines, anti-patterns, design process
 skills/
-  mcp-configure/
+  configure-canvas-mcp/
     SKILL.md                   ← Registers the Canvas Authoring MCP server with Claude Code
-  generate-app/
+  generate-canvas-app/
     SKILL.md                   ← Generates pa.yaml source files for a described Canvas App
-  edit-app/
+  edit-canvas-app/
     SKILL.md                   ← Edits pa.yaml source files for an existing Canvas App
 ```
 
@@ -36,9 +36,9 @@ skills/
 
 | Skill | Description |
 |-------|-------------|
-| `/canvas-apps-mcp-configure` | Register the Canvas Authoring MCP server with Claude Code |
-| `/canvas-apps-generate-app` | Generate a complete Canvas App from a natural language description |
-| `/canvas-apps-edit-app` | Edit an existing Canvas App from a natural language description of changes |
+| `/configure-canvas-mcp` | Register the Canvas Authoring MCP server with Claude Code |
+| `/generate-canvas-app` | Generate a complete Canvas App from a natural language description |
+| `/edit-canvas-app` | Edit an existing Canvas App from a natural language description of changes |
 
 ## MCP Tools
 

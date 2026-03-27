@@ -1,5 +1,5 @@
 ---
-name: canvas-apps-generate-app
+name: generate-canvas-app
 version: 1.0.0
 description: Generate a complete, visually distinctive Power Apps canvas app with YAML. USE WHEN the user wants to create, build, or generate a Canvas App or pa.yaml files.
 author: Microsoft Corporation

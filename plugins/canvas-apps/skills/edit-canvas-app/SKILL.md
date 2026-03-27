@@ -1,5 +1,5 @@
 ---
-name: canvas-apps-edit-app
+name: edit-canvas-app
 version: 1.0.0
 description: Edit an existing Power Apps canvas app. USE WHEN the user wants to modify, update, change, or edit an existing Canvas App or pa.yaml files.
 author: Microsoft Corporation

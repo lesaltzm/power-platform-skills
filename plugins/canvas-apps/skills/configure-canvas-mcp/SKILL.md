@@ -1,5 +1,5 @@
 ---
-name: canvas-apps-mcp-configure
+name: configure-canvas-mcp
 version: 1.0.0
 description: Configure the Canvas Authoring MCP server for Claude Code or Github Copilot. USE WHEN "configure MCP", "set up MCP server", "MCP not working", "connect Canvas Apps MCP", "canvas-authoring not available", "MCP not configured", "set up canvas apps". DO NOT USE WHEN prerequisites are missing — direct the user to install .NET 10 SDK first.
 author: Microsoft Corporation
