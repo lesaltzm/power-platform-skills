@@ -203,9 +203,7 @@ Tell the user:
 
 > ✅ Canvas Authoring MCP server configured (`canvas-authoring`, configPath: `{CONFIG_PATH}`).
 >
-> **Reload the VS Code window to activate it** (Command Palette → "Developer: Reload Window").
->
-> After reloading, verify the setup:
+> After saving, verify the setup:
 > - `canvas-authoring` should appear in the MCP server list
 > - Ask Copilot: "List available Canvas App controls" — should invoke `list_controls`
 
