@@ -150,13 +150,13 @@ claude mcp add --scope {CLAUDE_SCOPE} canvas-authoring \
    ```
 
 3. Determine which top-level key to use:
-   - If the config already has `"servers"`, use that
+   - If the config already has `"servers"`, or if the TOOL_TYPE is `vscode-copilot`, use that
    - Otherwise, use `"mcpServers"`
 
 4. Add or update the server entry:
    ```json
    {
-     "mcpServers": {  // or "servers", depending on existing config 
+     "mcpServers": {
        "canvas-authoring": {
          "type": "stdio",
          "command": "dnx",
